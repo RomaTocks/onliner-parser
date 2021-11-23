@@ -4,6 +4,7 @@ import com.onliner.tocks.parsing.common.General;
 import com.onliner.tocks.parsing.common.Page;
 import com.onliner.tocks.parsing.common.Product;
 import com.onliner.tocks.parsing.common.Products;
+import com.onliner.tocks.parsing.common.sellers.Position;
 import com.onliner.tocks.parsing.common.sellers.Sellers;
 import lombok.extern.slf4j.Slf4j;
 
@@ -120,7 +121,15 @@ public class Parser {
                     log.info("Parsing prices for " + product.getName() + " from https://catalog.onliner.by/sdapi/shop.api/products/" + product.getKey() + "/positions?town=all&has_prime_delivery=1&town_id=17030");
                     Sellers sellers = template.getForObject("https://catalog.onliner.by/sdapi/shop.api/products/" + product.getKey() + "/positions?town=all&has_prime_delivery=1&town_id=17030", Sellers.class,params);
                     log.info("Parsing ended.");
-                    product.setSellers(sellers);
+                    List<Position> positions = sellers.getPositions().getPrimary();
+                    List<Position> newPositions = new ArrayList<>();
+                    positions.forEach(position -> sellers.getShops().values().forEach(shop -> {
+                        if (shop.getId().equals(position.getShop_id())) {
+                            position.setShopInformation(shop);
+                            newPositions.add(position);
+                        }
+                    }));
+                    product.setPositions(newPositions);
                     log.info("Completed : " + String.format("%.2f", (current.get() / size) * 100) + "%");
                     getTimeout();
                 }
@@ -133,7 +142,7 @@ public class Parser {
                 log.info("Product " + product.getName() + " is no longer for sale.");
                 log.info("Parsing ended.");
                 log.info("Completed : " + String.format("%.2f", (current.get() / size) * 100) + "%");
-                product.setSellers(null);
+                product.setPositions(null);
             }
         });
         return products;
