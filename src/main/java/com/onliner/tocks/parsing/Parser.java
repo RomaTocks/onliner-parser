@@ -49,7 +49,7 @@ public class Parser {
         List<? extends Product> products = baseParsing(productsEnum);
         list.forEach(product -> products.stream().filter(productFromRequest -> product.getId().equals(productFromRequest.getId())).findFirst().ifPresent(product::setInformation));
         list.stream().filter(product -> products.stream().noneMatch(productFromRequest -> product.getId().equals(productFromRequest.getId()))).forEach(product -> product.setPrices(null));
-        products.removeIf(card -> list.stream().anyMatch(graphicCard -> card.getId().equals(graphicCard.getId())));
+        products.removeIf(product -> list.stream().anyMatch(productFromRequest -> product.getId().equals(productFromRequest.getId())));
         ((List<Product>) list).addAll(products);
         return parseSellers(list);
     }
