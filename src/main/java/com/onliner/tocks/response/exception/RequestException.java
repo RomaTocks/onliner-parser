@@ -1,4 +1,4 @@
-package com.onliner.tocks.exception;
+package com.onliner.tocks.response.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.onliner.tocks.parsing;
+package com.onliner.tocks.parsing.common;
 
 public enum ProductsEnum {
     PROCESSORS,
