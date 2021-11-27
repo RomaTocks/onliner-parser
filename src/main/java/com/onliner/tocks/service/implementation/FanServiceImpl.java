@@ -1,9 +1,9 @@
 package com.onliner.tocks.service.implementation;
 
-import com.onliner.tocks.model.PSU;
-import com.onliner.tocks.repository.PSURepository;
+import com.onliner.tocks.model.Fan;
+import com.onliner.tocks.repository.FanRepository;
 import com.onliner.tocks.response.exception.RequestException;
-import com.onliner.tocks.service.PSUService;
+import com.onliner.tocks.service.FanService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,32 +16,32 @@ import java.util.Map;
 import static com.onliner.tocks.response.Response.configureResponse;
 
 @Service
-public class PSUServiceImpl implements PSUService
+public class FanServiceImpl implements FanService
 {
-    private final PSURepository psuRepository;
+    private final FanRepository fanRepository;
 
-    public PSUServiceImpl(PSURepository psuRepository)
+    public FanServiceImpl(FanRepository fanRepository)
     {
-        this.psuRepository = psuRepository;
+        this.fanRepository = fanRepository;
     }
 
     @Override
-    public List<PSU> findAll()
+    public List<Fan> findAll()
     {
-        return psuRepository.findAll();
+        return fanRepository.findAll();
     }
 
     @Override
-    public List<PSU> findAllByPositionsNotNull()
+    public List<Fan> findAllByPositionsNotNull()
     {
-        return psuRepository.findAllByPositionsNotNull();
+        return fanRepository.findAllByPositionsNotNull();
     }
 
     @Override
     public ResponseEntity<Map<String, Object>> findAllBySellersNotNull()
     {
         HashMap<String, Object> map = new HashMap<>();
-        List<PSU> list = psuRepository.findAllByPositionsNotNull();
+        List<Fan> list = fanRepository.findAllByPositionsNotNull();
         map.put("products", list);
         map.put("total", (long) list.size());
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -50,14 +50,14 @@ public class PSUServiceImpl implements PSUService
     @Override
     public ResponseEntity<Map<String, Object>> findAllBySellersNotNull(Pageable pageable, String URL)
     {
-        return configureResponse(psuRepository.findAllByPositionsNotNull(pageable),URL);
+        return configureResponse(fanRepository.findAllByPositionsNotNull(pageable),URL);
     }
 
     @Override
     public ResponseEntity<Object> findCPUById(String id)
     {
-        if(psuRepository.findById(id).isPresent()) {
-            return new ResponseEntity<>(psuRepository.findById(id).get(), HttpStatus.OK);
+        if(fanRepository.findById(id).isPresent()) {
+            return new ResponseEntity<>(fanRepository.findById(id).get(), HttpStatus.OK);
         }
         else {
             return new ResponseEntity<>(new RequestException("Продукт с id : " + id + " не найден."), HttpStatus.OK);
@@ -65,8 +65,8 @@ public class PSUServiceImpl implements PSUService
     }
 
     @Override
-    public void saveAll(List<PSU> psus)
+    public void saveAll(List<Fan> fans)
     {
-        psuRepository.saveAll(psus);
+        fanRepository.saveAll(fans);
     }
 }
