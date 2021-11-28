@@ -1,13 +1,12 @@
 package com.onliner.tocks.parsing;
 
-import com.onliner.tocks.parsing.common.General;
 import com.onliner.tocks.parsing.common.Page;
 import com.onliner.tocks.parsing.common.Product;
 import com.onliner.tocks.parsing.common.Products;
+import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import com.onliner.tocks.parsing.common.sellers.Sellers;
 import lombok.extern.slf4j.Slf4j;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,9 +26,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.onliner.tocks.parsing.AdditionalInformation.getAdditionalInformationOfProduct;
-import static com.onliner.tocks.parsing.AdditionalInformation.setAdditionalInformationForProductFromMap;
-import static com.onliner.tocks.parsing.common.General.*;
+import static com.onliner.tocks.parsing.AdditionalInformation.*;
+import static com.onliner.tocks.parsing.common.ProductEnumsMethods.getObjectByEnum;
+import static com.onliner.tocks.parsing.common.ProductEnumsMethods.getUrlByEnum;
+import static com.onliner.tocks.timeout.Timeout.getTimeout;
+import static com.onliner.tocks.transform.Transform.listsToHashMap;
+import static com.onliner.tocks.transform.Transform.transformList;
 
 
 @Component
@@ -163,7 +165,7 @@ public class Parser {
         productsList.forEach(product -> {
             current.getAndSet(current.get() + 1);
             try {
-                Product newProduct = General.getObjectByEnum(productsEnum);
+                Product newProduct = getObjectByEnum(productsEnum);
                 newProduct.setInformation(product);
                 if(isAdditionalInformationByEnum(product,productsEnum) && newProduct.getPrices() != null) {
                     log.info("Started parsing additional information about " + product.getName() +  " from " + product.getHtml_url());

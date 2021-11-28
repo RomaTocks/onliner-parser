@@ -2,7 +2,7 @@ package com.onliner.tocks.controller.parsing;
 
 import com.onliner.tocks.model.*;
 import com.onliner.tocks.parsing.Parser;
-import com.onliner.tocks.parsing.ProductsEnum;
+import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PutMapping;
