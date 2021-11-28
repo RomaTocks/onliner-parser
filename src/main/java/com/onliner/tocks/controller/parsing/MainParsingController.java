@@ -29,10 +29,11 @@ public class MainParsingController
     private final PSUService psuService;
     private final MotherboardService motherboardService;
     private final RamService ramService;
+    private final ChassisService chassisService;
     private final Parser parser;
 
     @Autowired
-    public MainParsingController(CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, Parser parser)
+    public MainParsingController(CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, ChassisService chassisService, Parser parser)
     {
         this.cpuService = cpuService;
         this.graphicCardService = graphicCardService;
@@ -42,6 +43,7 @@ public class MainParsingController
         this.psuService = psuService;
         this.motherboardService = motherboardService;
         this.ramService = ramService;
+        this.chassisService = chassisService;
         this.parser = parser;
     }
 
@@ -73,6 +75,7 @@ public class MainParsingController
             case COOLING: list = sellersNotNull ? fanService.findAllByPositionsNotNull() : fanService.findAll();break;
             case PSU: list = sellersNotNull ? psuService.findAllByPositionsNotNull() : psuService.findAll();break;
             case MOTHERBOARDS: list = sellersNotNull ? motherboardService.findAllByPositionsNotNull() : motherboardService.findAll();break;
+            case CHASSIS: list = sellersNotNull ? chassisService.findAllByPositionsNotNull() : chassisService.findAll();break;
         }
         return  list;
     }
@@ -101,6 +104,9 @@ public class MainParsingController
         }
         if(list.get(0) instanceof Ram) {
             ramService.saveAll((List<Ram>)list);
+        }
+        if(list.get(0) instanceof Chassis) {
+            chassisService.saveAll((List<Chassis>) list);
         }
     }
 }

@@ -8,5 +8,6 @@ public enum ProductsEnum {
     HDD,
     COOLING,
     PSU,
-    MOTHERBOARDS
+    MOTHERBOARDS,
+    CHASSIS
 }

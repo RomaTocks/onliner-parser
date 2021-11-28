@@ -5,6 +5,8 @@ import com.onliner.tocks.controller.parsing.PriceParsingController;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class Scheduler
 {
@@ -17,12 +19,12 @@ public class Scheduler
         this.additionalParsingController = additionalParsingController;
     }
 
-    @Scheduled(cron = "* 0 23 * * ?")
+    @Scheduled(cron = "* 0 0 * * ?")
     public void scheduledParsingOfCPU() {
         priceParsingController.parsingPricesOfProcessors();
         additionalParsingController.parsingAdditionalInformationOfProcessors();
     }
-    @Scheduled(cron = "* 0 2 * * ?")
+    @Scheduled(cron = "* 30 2 * * ?")
     public void scheduledParsingPricesOfGPU() {
         priceParsingController.parsingPricesOfGraphicCards();
         additionalParsingController.parsingAdditionalInformationOfGraphicCards();
@@ -32,29 +34,34 @@ public class Scheduler
         priceParsingController.parsingPricesOfFan();
         additionalParsingController.parsingAdditionalInformationForFan();
     }
-    @Scheduled(cron = "* 0 8 * * ?")
+    @Scheduled(cron = "* 30 7 * * ?")
     public void scheduledParsingOfHDD() {
         priceParsingController.parsingPricesOfHDD();
         additionalParsingController.parsingAdditionalInformationOfHDD();
     }
-    @Scheduled(cron = "* 0 11 * * ?")
+    @Scheduled(cron = "* 0 10 * * ?")
     public void scheduledParsingOfSSD() {
         priceParsingController.parsingPricesOfSSD();
         additionalParsingController.parsingAdditionalInformationOfSSD();
     }
-    @Scheduled(cron = "* 0 14 * * ?")
+    @Scheduled(cron = "* 30 12 * * ?")
     public void scheduledParsingOfMotherboard() {
         priceParsingController.parsingPricesOfMotherboard();
         additionalParsingController.parsingAdditionalInformationOfMotherboard();
     }
-    @Scheduled(cron = "* 0 17 * * ?")
+    @Scheduled(cron = "* 0 15 * * ?")
     public void scheduledParsingOfRam() {
         priceParsingController.parsingPricesOfRam();
         additionalParsingController.parsingAdditionalInformationOfRam();
     }
-    @Scheduled(cron = "* 0 20 * * ?")
+    @Scheduled(cron = "* 0 19 * * ?")
     public void scheduledParsingOfPSU() {
         priceParsingController.parsingPricesOfPSU();
         additionalParsingController.parsingAdditionalInformationOfPSU();
+    }
+    @Scheduled(cron = "* 30 22 * * ?")
+    public void scheduledParsingOfChassis() {
+        priceParsingController.parsingPricesOfChassis();
+        additionalParsingController.parsingAdditionalInformationOfChassis();
     }
 }

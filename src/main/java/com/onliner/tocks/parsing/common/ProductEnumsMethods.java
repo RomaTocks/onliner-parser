@@ -17,6 +17,7 @@ public class ProductEnumsMethods
             case COOLING : product = new Fan();break;
             case PSU : product = new PSU();break;
             case MOTHERBOARDS : product = new Motherboard();break;
+            case CHASSIS: product = new Chassis();break;
         }
         return product;
     }
@@ -31,6 +32,7 @@ public class ProductEnumsMethods
             case COOLING: URL = "https://catalog.onliner.by/sdapi/catalog.api/search/fan?" + "type_fan[0]=cpu";break;
             case PSU: URL = "https://catalog.onliner.by/sdapi/catalog.api/search/powersupply";break;
             case MOTHERBOARDS: URL = "https://catalog.onliner.by/sdapi/catalog.api/search/motherboard";break;
+            case CHASSIS: URL = "https://catalog.onliner.by/sdapi/catalog.api/search/chassis";break;
             default:
                 throw new IllegalStateException("Unexpected value: " + productsEnum);
         }

@@ -3,6 +3,7 @@ package com.onliner.tocks.parsing;
 import com.onliner.tocks.model.*;
 import com.onliner.tocks.model.additional.*;
 import com.onliner.tocks.parsing.common.Product;
+import com.onliner.tocks.parsing.common.ProductsEnum;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -50,7 +51,27 @@ public class AdditionalInformation {
             ((Motherboard) product).setAdditional(new MotherboardAdditionalInformation());
             map.forEach((infoKey, infoValue) -> ((Motherboard) product).setAdditional(setAdditionalInformationForMotherboard(infoKey, infoValue, ((Motherboard) product).getAdditional())));
         }
+        if(product instanceof Chassis)
+        {
+            ((Chassis) product).setAdditional(new ChassisAdditionalInformation());
+            map.forEach((infoKey, infoValue) -> ((Chassis) product).setAdditional(setAdditionalInformationForChassis(infoKey, infoValue, ((Chassis) product).getAdditional())));
+        }
         return product;
+    }
+    public static boolean isAdditionalInformationByEnum(Product product, ProductsEnum productsEnum) {
+        boolean answer = true;
+        switch (productsEnum) {
+            case PROCESSORS : answer = ((CPU) product).getAdditional() == null;break;
+            case GRAPHIC_CARDS : answer = ((GraphicCard) product).getAdditional() == null;break;
+            case RAM : answer = ((Ram) product).getAdditional() == null;break;
+            case SSD : answer = ((SSD) product).getAdditional() == null;break;
+            case HDD : answer = ((HDD) product).getAdditional() == null;break;
+            case COOLING : answer = ((Fan) product).getAdditional() == null;break;
+            case PSU : answer = ((PSU) product).getAdditional() == null;break;
+            case MOTHERBOARDS : answer = ((Motherboard) product).getAdditional() == null;break;
+            case CHASSIS: answer = ((Chassis) product).getAdditional() == null;break;
+        }
+        return answer;
     }
 
     // TODO: 20.11.2021 Доработать метод передачи дополнительной информации.
@@ -200,5 +221,30 @@ public class AdditionalInformation {
             case "Профили XMP" : ram.setXmp(value);
         }
         return ram;
+    }
+
+    // TODO: 28.11.2021 Доработать информацию о корпусах.
+    public static ChassisAdditionalInformation setAdditionalInformationForChassis(String key, String value, ChassisAdditionalInformation chassis) {
+        switch (key)
+        {
+            case "Блок питания" : chassis.setPsuKit(value);
+            case "Тип корпуса" : chassis.setType(value);
+            case "Цвет корпуса" : chassis.setColor(value);
+            case "Материал окна" : chassis.setWindowMaterial(value);
+            case "Макс. размер материнской платы" : chassis.setMaxSizeOfMotherboard(value);
+            case "Совместимые материнские платы" : chassis.setMotherboardsCompatibleSizes(value);
+            case "Расположение блока питания" : chassis.setPsuLocation(value);
+            case "Поддержка жидкостного охлаждения" : chassis.setWaterCoolingSupport(value);
+            case "Количество мест для вентиляторов" : chassis.setFanSection(value);
+            case "Установленные вентиляторы" : chassis.setFanKit(value);
+            case "Макс. длина видеокарты" : chassis.setMaxGPULength(value);
+            case "Макс. высота процессорного кулера" : chassis.setMaxCPUCoolingSystemHeight(value);
+            case "Макс. длина блока питания" : chassis.setMaxPSULength(value);
+            case "Высота" : chassis.setHeight(value);
+            case "Ширина" : chassis.setWidth(value);
+            case "Глубина" : chassis.setDepth(value);
+            case "Вес" : chassis.setWeight(value);
+        }
+        return chassis;
     }
 }

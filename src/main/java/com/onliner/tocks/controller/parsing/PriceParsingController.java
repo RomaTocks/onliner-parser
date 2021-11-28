@@ -23,10 +23,11 @@ public class PriceParsingController
     private final PSUService psuService;
     private final MotherboardService motherboardService;
     private final RamService ramService;
+    private final ChassisService chassisService;
     private final Parser parser;
 
     @Autowired
-    public PriceParsingController(CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, Parser parser)
+    public PriceParsingController(CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, ChassisService chassisService, Parser parser)
     {
         this.cpuService = cpuService;
         this.graphicCardService = graphicCardService;
@@ -36,6 +37,7 @@ public class PriceParsingController
         this.psuService = psuService;
         this.motherboardService = motherboardService;
         this.ramService = ramService;
+        this.chassisService = chassisService;
         this.parser = parser;
     }
     @PutMapping("/cpu")
@@ -77,5 +79,10 @@ public class PriceParsingController
     public void parsingPricesOfFan() {
         List<Fan> fans = (List<Fan>) parser.updateParsing(fanService.findAllByPositionsNotNull(),ProductsEnum.COOLING);
         fanService.saveAll(fans);
+    }
+    @PutMapping("/chassis")
+    public void parsingPricesOfChassis() {
+        List<Chassis> chassis = (List<Chassis>) parser.updateParsing(chassisService.findAllByPositionsNotNull(),ProductsEnum.CHASSIS);
+        chassisService.saveAll(chassis);
     }
 }

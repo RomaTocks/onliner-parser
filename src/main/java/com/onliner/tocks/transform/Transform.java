@@ -99,6 +99,15 @@ public class Transform
                 });
                 return motherboards;
             }
+            case CHASSIS: {
+                List<Chassis> chassises = new ArrayList<>();
+                list.forEach(product -> {
+                    Chassis chassis = new Chassis();
+                    chassis.setInformation(product);
+                    chassises.add(chassis);
+                });
+                return chassises;
+            }
             default:{
                 return null;
             }

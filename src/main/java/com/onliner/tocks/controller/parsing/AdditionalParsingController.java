@@ -23,10 +23,11 @@ public class AdditionalParsingController
     private final PSUService psuService;
     private final MotherboardService motherboardService;
     private final RamService ramService;
+    private final ChassisService chassisService;
     private final Parser parser;
 
     @Autowired
-    public AdditionalParsingController(CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, Parser parser)
+    public AdditionalParsingController(CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, ChassisService chassisService, Parser parser)
     {
         this.cpuService = cpuService;
         this.graphicCardService = graphicCardService;
@@ -36,6 +37,7 @@ public class AdditionalParsingController
         this.psuService = psuService;
         this.motherboardService = motherboardService;
         this.ramService = ramService;
+        this.chassisService = chassisService;
         this.parser = parser;
     }
     @PutMapping("/cpu")
@@ -77,5 +79,10 @@ public class AdditionalParsingController
     public void parsingAdditionalInformationForFan() {
         List<Fan> fans = (List<Fan>) parser.parseAdditionalInformation(fanService.findAllByPositionsNotNull(),ProductsEnum.COOLING);
         fanService.saveAll(fans);
+    }
+    @PutMapping("/chassis")
+    public void parsingAdditionalInformationOfChassis() {
+        List<Chassis> chassis = (List<Chassis>) parser.parseAdditionalInformation(chassisService.findAllByPositionsNotNull(),ProductsEnum.CHASSIS);
+        chassisService.saveAll(chassis);
     }
 }
