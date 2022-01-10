@@ -1,4 +1,4 @@
-package com.onliner.tocks.parsing.common;
+package com.onliner.tocks.parsing.common.price;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

@@ -1,10 +1,12 @@
-package com.onliner.tocks.parsing.common;
+package com.onliner.tocks.parsing.common.price;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class Offer {
-    private Integer count;
+public class Price {
+    private String amount;
+    private String currency;
+
 }

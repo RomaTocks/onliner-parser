@@ -1,7 +1,7 @@
 package com.onliner.tocks.parsing.common.sellers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.onliner.tocks.parsing.common.Price;
+import com.onliner.tocks.parsing.common.price.Price;
 import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

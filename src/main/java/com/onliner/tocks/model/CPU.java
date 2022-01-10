@@ -1,7 +1,7 @@
 package com.onliner.tocks.model;
 
 import com.onliner.tocks.model.additional.CPUAdditionalInformation;
-import com.onliner.tocks.parsing.common.Product;
+import com.onliner.tocks.parsing.common.product.Product;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 

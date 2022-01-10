@@ -2,7 +2,7 @@ package com.onliner.tocks.transform;
 
 import com.onliner.tocks.model.*;
 import com.onliner.tocks.parsing.common.ProductsEnum;
-import com.onliner.tocks.parsing.common.Product;
+import com.onliner.tocks.parsing.common.product.Product;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

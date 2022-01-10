@@ -1,6 +1,7 @@
-package com.onliner.tocks.parsing.common;
+package com.onliner.tocks.parsing.common.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.onliner.tocks.parsing.common.price.Prices;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import lombok.Data;
 import org.springframework.data.annotation.Id;

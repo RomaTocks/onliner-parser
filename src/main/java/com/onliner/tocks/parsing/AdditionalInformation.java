@@ -2,7 +2,7 @@ package com.onliner.tocks.parsing;
 
 import com.onliner.tocks.model.*;
 import com.onliner.tocks.model.additional.*;
-import com.onliner.tocks.parsing.common.Product;
+import com.onliner.tocks.parsing.common.product.Product;
 import com.onliner.tocks.parsing.common.ProductsEnum;
 import org.springframework.stereotype.Component;
 
