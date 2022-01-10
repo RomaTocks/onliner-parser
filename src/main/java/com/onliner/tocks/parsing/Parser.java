@@ -1,11 +1,12 @@
 package com.onliner.tocks.parsing;
 
-import com.onliner.tocks.parsing.common.Page;
-import com.onliner.tocks.parsing.common.Product;
-import com.onliner.tocks.parsing.common.Products;
+import com.onliner.tocks.parsing.common.product.Page;
+import com.onliner.tocks.parsing.common.product.Product;
+import com.onliner.tocks.parsing.common.product.Products;
 import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import com.onliner.tocks.parsing.common.sellers.Sellers;
+import com.onliner.tocks.parsing.filters.ProductFilters;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,8 +28,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.onliner.tocks.parsing.AdditionalInformation.*;
-import static com.onliner.tocks.parsing.common.ProductEnumsMethods.getObjectByEnum;
-import static com.onliner.tocks.parsing.common.ProductEnumsMethods.getUrlByEnum;
+import static com.onliner.tocks.parsing.common.ProductEnumsMethods.*;
 import static com.onliner.tocks.timeout.Timeout.getTimeout;
 import static com.onliner.tocks.transform.Transform.listsToHashMap;
 import static com.onliner.tocks.transform.Transform.transformList;
@@ -61,15 +61,15 @@ public class Parser {
         RestTemplate template = new RestTemplate();
         HashMap<String,String> params = new HashMap<>();
         log.info("Parsing goods started!");
-        log.info("Parsing from " + getUrlByEnum(productsEnum));
+        log.info("Parsing from " + getProductsUrlByEnum(productsEnum));
         Products allProducts = new Products();
         try
         {
-            allProducts = template.getForObject(getUrlByEnum(productsEnum) + (productsEnum == ProductsEnum.COOLING ? "&" : "?") + "limit=36&page=1&price[from]=0.00", Products.class,params);
+            allProducts = template.getForObject(getProductsUrlByEnum(productsEnum) + (productsEnum == ProductsEnum.COOLING ? "&" : "?") + "limit=36&page=1&price[from]=0.00", Products.class,params);
         }
         catch (RestClientException e)
         {
-            log.error("Impossible to parse from " + getUrlByEnum(productsEnum));
+            log.error("Impossible to parse from " + getProductsUrlByEnum(productsEnum));
         }
         if (allProducts != null)
         {
@@ -85,7 +85,7 @@ public class Parser {
                 log.info("Current page is : " + page.getCurrent() + " of " + page.getLast());
                 try {
                     log.info("Parse...");
-                    Products products = template.getForObject(getUrlByEnum(productsEnum) + (productsEnum == ProductsEnum.COOLING ? "&" : "?") + "price[from]=0.00&limit=36&page=" + page.getCurrent(), Products.class,params);
+                    Products products = template.getForObject(getProductsUrlByEnum(productsEnum) + (productsEnum == ProductsEnum.COOLING ? "&" : "?") + "price[from]=0.00&limit=36&page=" + page.getCurrent(), Products.class,params);
                     if (products != null)
                     {
                         allProducts.addAllNewProducts(products.getProducts());
@@ -98,7 +98,7 @@ public class Parser {
                 }
                 catch (NullPointerException e)
                 {
-                    log.error("Impossible to parse from " + getUrlByEnum(productsEnum));
+                    log.error("Impossible to parse from " + getProductsUrlByEnum(productsEnum));
                 }
                 getTimeout();
             }
@@ -188,9 +188,7 @@ public class Parser {
                                     values.add(tr.select("td").last().select("span").text());
                                 }
                             }
-                            catch (NullPointerException exception)
-                            {
-                            }
+                            catch (NullPointerException exception) {}
                         }
                     }
                     LinkedHashMap<String, String> additionalInformation = listsToHashMap(keys,values);
@@ -206,12 +204,39 @@ public class Parser {
                 list.add(newProduct);
                 log.info("Completed : " + String.format("%.2f", (current.get() / size) * 100) + "%");
                 System.out.println();
-            } catch (Exception exception) {
+            }
+            catch (Exception exception) {
                 exception.printStackTrace();
             }
         });
         driver.close();
         log.info("Ended parsing additional information for products.");
         return list;
+    }
+    public List<ProductFilters> parseProductFilters() {
+        RestTemplate template = new RestTemplate();
+        List<ProductFilters> productFilters = new ArrayList<>();
+        for (ProductsEnum value : ProductsEnum.values())
+        {
+            log.info("Parsing filters from : " + getFiltersUrlByEnum(value));
+            try {
+                ProductFilters filters = template.getForObject(getFiltersUrlByEnum(value),ProductFilters.class);
+                productFilters.add(filters);
+                if (filters != null)
+                {
+                    filters.setId(value.name());
+                    log.info("Filter for " + value.name() + " parsed.");
+                }
+                else
+                {
+                    throw new RestClientException("Exception while parsing filters.");
+                }
+            }
+            catch (RestClientException e)
+            {
+                log.error(e.getMessage());
+            }
+        }
+        return productFilters;
     }
 }
