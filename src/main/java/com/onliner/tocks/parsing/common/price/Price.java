@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class Price {
     private String amount;
+    private Double value;
     private String currency;
 
 }
