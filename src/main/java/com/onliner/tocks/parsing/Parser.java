@@ -7,6 +7,7 @@ import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import com.onliner.tocks.parsing.common.sellers.Sellers;
 import com.onliner.tocks.parsing.filters.ProductFilters;
+import com.onliner.tocks.transform.Transform;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,6 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static com.onliner.tocks.parsing.AdditionalInformation.*;
 import static com.onliner.tocks.parsing.common.ProductEnumsMethods.*;
+import static com.onliner.tocks.timeout.Timeout.getFixedTimeout;
 import static com.onliner.tocks.timeout.Timeout.getTimeout;
 import static com.onliner.tocks.transform.Transform.listsToHashMap;
 import static com.onliner.tocks.transform.Transform.transformList;
@@ -63,6 +65,7 @@ public class Parser {
         log.info("Parsing goods started!");
         log.info("Parsing from " + getProductsUrlByEnum(productsEnum));
         Products allProducts = new Products();
+        List<Product> productsWithManufacturer = new ArrayList<>();
         try
         {
             allProducts = template.getForObject(getProductsUrlByEnum(productsEnum) + (productsEnum == ProductsEnum.COOLING ? "&" : "?") + "limit=36&page=1&price[from]=0.00", Products.class,params);
@@ -93,23 +96,47 @@ public class Parser {
                     else {
                         throw new NullPointerException();
                     }
-                    log.info(currentProductNumber + " from " + size);
-                    log.info("Completed : " + (currentProductNumber / size) * 100 + "%");
+                    log.info("Completed : " + String.format("%.2f",(currentProductNumber / size) * 100) + "%");
                 }
                 catch (NullPointerException e)
                 {
                     log.error("Impossible to parse from " + getProductsUrlByEnum(productsEnum));
                 }
-                getTimeout();
+                getFixedTimeout(500, TimeUnit.MILLISECONDS);
             }
+            productsWithManufacturer = parseManufacturer(allProducts.getProducts());
             Long endingTime = System.currentTimeMillis();
             long time = (endingTime - startingTime)/1000;
             System.out.println("--------------ПАРСИНГ ОКОНЧЕН ЗА " + time + " СЕКУНД--------------");
             log.info("Total goods: " + allProducts.getTotal());
         }
-        return transformList(allProducts != null ? allProducts.getProducts() : new ArrayList<>(),productsEnum);
+        return transformList(allProducts != null ? productsWithManufacturer : new ArrayList<>(),productsEnum);
     }
-
+    public List<Product> parseManufacturer(List<Product> products) {
+        RestTemplate template = new RestTemplate();
+        log.info("Parsing manufacturer for products");
+        AtomicReference<Integer> count = new AtomicReference<>(0);
+        AtomicReference<Double> size = new AtomicReference<>((double)products.size());
+        products.forEach(product -> {
+            count.getAndSet(count.get() + 1);
+            if(product.getManufacturer() == null) {
+                Product productWithManufacturer = template.getForObject("https://catalog.api.onliner.by/products/" + product.getKey(), Product.class);
+                if (productWithManufacturer != null) {
+                    product.setManufacturer(productWithManufacturer.getManufacturer());
+                    log.info("Manufacturer key:" + product.getManufacturer().getKey() + " name:" + product.getManufacturer().getName());
+                }
+                else {
+                    log.info("Manufacturer for product " + product.getName() + " doesn't exist!");
+                }
+                getTimeout();
+            }
+            else {
+                log.info("Manufacturer for " + product.getName() + " already parsed!");
+            }
+            log.info("Completed : " + String.format("%.2f", (count.get() / size.get()) * 100) + "%");
+        });
+        return products;
+    }
     // TODO: 20.11.2021 Рефакторинг метода.
     public List<? extends Product> parseSellers(List<? extends Product> products) {
         Double size = (double) products.size();
