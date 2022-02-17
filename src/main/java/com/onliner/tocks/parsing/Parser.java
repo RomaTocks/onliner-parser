@@ -188,14 +188,7 @@ public class Parser {
         return products;
     }
     public List<? extends Product> parseAdditionalInformation(List<? extends Product> productsList, ProductsEnum productsEnum) {
-        FirefoxOptions options = new FirefoxOptions();
-        FirefoxProfile profile = new FirefoxProfile();
-        profile.setPreference("general.useragent.override","Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.50");
-        profile.setPreference("network.proxy.type", 1);
-        options.setHeadless(true);
-        options.setProfile(profile);
-        WebDriver driver = new FirefoxDriver(options);
-        driver.manage().timeouts().pageLoadTimeout(100000, TimeUnit.MILLISECONDS);
+        WebDriver driver = getWebDriver();
         List<Product> list = new ArrayList<>();
         log.info("Started parsing additional information for products.");
         Double size = (double) productsList.size();
@@ -278,5 +271,17 @@ public class Parser {
             }
         }
         return productFilters;
+    }
+
+    private WebDriver getWebDriver() {
+        FirefoxOptions options = new FirefoxOptions();
+        FirefoxProfile profile = new FirefoxProfile();
+        profile.setPreference("general.useragent.override","Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.50");
+        profile.setPreference("network.proxy.type", 1);
+        options.setHeadless(true);
+        options.setProfile(profile);
+        WebDriver driver = new FirefoxDriver(options);
+        driver.manage().timeouts().pageLoadTimeout(100000, TimeUnit.MILLISECONDS);
+        return driver;
     }
 }
