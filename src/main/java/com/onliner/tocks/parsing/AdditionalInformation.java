@@ -82,6 +82,27 @@ public class AdditionalInformation {
         if (productIn instanceof GraphicCard) {
             ((GraphicCard) productIn).setAdditional(((GraphicCard)productOut).getAdditional());
         }
+        if (productIn instanceof Ram) {
+            ((Ram) productIn).setAdditional(((Ram)productOut).getAdditional());
+        }
+        if (productIn instanceof Chassis) {
+            ((Chassis) productIn).setAdditional(((Chassis)productOut).getAdditional());
+        }
+        if (productIn instanceof Motherboard) {
+            ((Motherboard) productIn).setAdditional(((Motherboard)productOut).getAdditional());
+        }
+        if (productIn instanceof HDD) {
+            ((HDD) productIn).setAdditional(((HDD)productOut).getAdditional());
+        }
+        if (productIn instanceof SSD) {
+            ((SSD) productIn).setAdditional(((SSD)productOut).getAdditional());
+        }
+        if (productIn instanceof PSU) {
+            ((PSU) productIn).setAdditional(((PSU)productOut).getAdditional());
+        }
+        if (productIn instanceof Fan) {
+            ((Fan) productIn).setAdditional(((Fan)productOut).getAdditional());
+        }
         return productIn;
     }
 
