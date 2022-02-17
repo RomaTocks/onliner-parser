@@ -1,9 +1,10 @@
 package com.onliner.tocks.parsing;
 
+import com.onliner.tocks.parsing.common.ProductsEnum;
+import com.onliner.tocks.parsing.common.price.Price;
 import com.onliner.tocks.parsing.common.product.Page;
 import com.onliner.tocks.parsing.common.product.Product;
 import com.onliner.tocks.parsing.common.product.Products;
-import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import com.onliner.tocks.parsing.common.sellers.Sellers;
 import com.onliner.tocks.parsing.filters.ProductFilters;
@@ -150,15 +151,25 @@ public class Parser {
                     log.info("Parsing prices for " + product.getName() + " from https://catalog.onliner.by/sdapi/shop.api/products/" + product.getKey() + "/positions?town=all&has_prime_delivery=1&town_id=17030");
                     Sellers sellers = template.getForObject("https://catalog.onliner.by/sdapi/shop.api/products/" + product.getKey() + "/positions?town=all&has_prime_delivery=1&town_id=17030", Sellers.class,params);
                     log.info("Parsing ended.");
-                    List<Position> positions = sellers.getPositions().getPrimary();
-                    List<Position> newPositions = new ArrayList<>();
-                    positions.forEach(position -> sellers.getShops().values().forEach(shop -> {
-                        if (shop.getId().equals(position.getShop_id())) {
-                            position.setShopInformation(shop);
-                            newPositions.add(position);
-                        }
-                    }));
-                    product.setPositions(newPositions);
+                    if (sellers != null && (sellers.getPositions().getPrimary() != null || !sellers.getPositions().getPrimary().isEmpty()))
+                    {
+                        List<Position> positions = sellers.getPositions().getPrimary();
+                        List<Position> newPositions = new ArrayList<>();
+                        positions.forEach(position -> sellers.getShops().values().forEach(shop -> {
+                            if (shop.getId().equals(position.getShop_id()))
+                            {
+                                position.setShopInformation(shop);
+                                Price priceWithValue = position.getPosition_price();
+                                priceWithValue.setValue(Double.parseDouble(priceWithValue.getAmount()));
+                                position.setPosition_price(priceWithValue);
+                                newPositions.add(position);
+                            }
+                        }));
+                        product.setPositions(newPositions);
+                    }
+                    else {
+                        log.info("Positions for product " + product.getName() + " doesn't exist!");
+                    }
                     log.info("Completed : " + String.format("%.2f", (current.get() / size) * 100) + "%");
                     getTimeout();
                 }
@@ -236,10 +247,12 @@ public class Parser {
                 exception.printStackTrace();
             }
         });
+        List<? extends Product> productsWithValues = Transform.getValuesFromAdditional(list,productsEnum);
         driver.close();
         log.info("Ended parsing additional information for products.");
-        return list;
+        return productsWithValues;
     }
+
     public List<ProductFilters> parseProductFilters() {
         RestTemplate template = new RestTemplate();
         List<ProductFilters> productFilters = new ArrayList<>();
