@@ -1,6 +1,7 @@
 package com.onliner.tocks.model;
 
 import com.onliner.tocks.model.additional.FanAdditionalInformation;
+import com.onliner.tocks.model.additional.values.FanAdditionalValues;
 import com.onliner.tocks.parsing.common.product.Product;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,4 +14,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString(callSuper = true)
 public class Fan extends Product {
     private FanAdditionalInformation additional;
+    private FanAdditionalValues values;
 }

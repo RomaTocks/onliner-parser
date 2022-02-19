@@ -2,6 +2,7 @@ package com.onliner.tocks.model;
 
 
 import com.onliner.tocks.model.additional.HDDAdditionalInformation;
+import com.onliner.tocks.model.additional.values.HDDAdditionalValues;
 import com.onliner.tocks.parsing.common.product.Product;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,4 +15,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString(callSuper = true)
 public class HDD extends Product {
     private HDDAdditionalInformation additional;
+    private HDDAdditionalValues values;
 }
