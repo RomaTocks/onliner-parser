@@ -10,7 +10,11 @@ public class Converter
 
     public static Integer getIntegersFromString(String string) {
         Pattern pattern = Pattern.compile(INTEGER_PATTERN);
-        return Integer.valueOf(prepareString(pattern, string));
+        String preparedString = prepareString(pattern, string);
+        if(preparedString.isEmpty()) {
+            return null;
+        }
+        return Integer.valueOf(preparedString);
     }
     public static Double getDoubleFromString(String string) {
         Pattern pattern = Pattern.compile(DOUBLE_PATTERN);
@@ -18,6 +22,9 @@ public class Converter
         if(preparedString.isEmpty()) {
             pattern = Pattern.compile(INTEGER_PATTERN);
             String newPreparedString = prepareString(pattern, string);
+            if(newPreparedString.isEmpty()) {
+                return null;
+            }
             return Double.valueOf(newPreparedString);
         }
         return Double.valueOf(prepareString(pattern,string));
