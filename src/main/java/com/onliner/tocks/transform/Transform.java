@@ -199,13 +199,16 @@ public class Transform
                     psuAdditionalValues.setHeight(checkStringInteger(additional.getHeight()));
                     psuAdditionalValues.setWidth(checkStringInteger(additional.getWidth()));
                 });
+                return psus;
             case MOTHERBOARDS:
                 List<Motherboard> motherboards = (List<Motherboard>) list;
                 motherboards.forEach(motherboard -> {
                     MotherboardAdditionalValues values = new MotherboardAdditionalValues();
                     MotherboardAdditionalInformation additional = motherboard.getAdditional();
                     values.setChassisFan(checkStringInteger(additional.getChassisFan()));
+
                 });
+                return motherboards;
             case CHASSIS:
                 List<Chassis> chassises = (List<Chassis>) list;
                 chassises.forEach(chassis -> {
