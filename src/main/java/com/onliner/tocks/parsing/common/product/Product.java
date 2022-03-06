@@ -1,8 +1,10 @@
 package com.onliner.tocks.parsing.common.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.onliner.tocks.parsing.common.image.Images;
 import com.onliner.tocks.parsing.common.price.Price;
 import com.onliner.tocks.parsing.common.price.Prices;
+import com.onliner.tocks.parsing.common.rating.Rating;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -16,6 +18,9 @@ public class Product {
     protected String id;
     protected String key;
     protected String name;
+    protected String extended_name;
+    protected Images images;
+    protected Rating reviews;
     protected Manufacturer manufacturer;
     protected String description;
     protected Prices prices;
@@ -26,6 +31,8 @@ public class Product {
     public void setInformation(Product product) {
         this.setId(product.getId());
         this.setKey(product.getKey());
+        this.setReviews(product.getReviews());
+        this.setImages(product.getImages());
         this.setDescription(product.getDescription());
         this.setHtml_url(product.getHtml_url());
         this.setName(product.getName());
