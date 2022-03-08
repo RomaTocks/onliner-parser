@@ -188,12 +188,28 @@ public class Parser {
                     else {
                         log.info("Positions for product " + product.getName() + " doesn't exist!");
                     }
+                    log.info("Starting update of product's rating.");
+                    try
+                    {
+                        Product rating = template.getForObject("https://catalog.api.onliner.by/products/" + product.getKey(), Product.class);
+                        if (rating != null)
+                        {
+                            product.setReviews(rating.getReviews());
+                            log.info("Rating of product are updated.");
+                        }
+                        else {
+                            log.info("Reviews for product not found.");
+                        }
+                    }
+                    catch (Exception exception) {
+                       log.error("Exception while parsing rating for product " + product.getName());
+                    }
                     log.info("Completed : " + String.format("%.2f", (current.get() / size) * 100) + "%");
                     getTimeout();
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    log.error("Exception while parsing sellers for product " + product.getName());
                 }
             }
             else {
