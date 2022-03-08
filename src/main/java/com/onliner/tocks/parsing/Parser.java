@@ -50,8 +50,7 @@ public class Parser {
     // TODO: 20.11.2021 Рефакторинг метода.
     public List<? extends Product> fullInformationParsing(ProductsEnum productsEnum) {
         List<? extends Product> list = baseParsing(productsEnum);
-        getTimeout();
-        list = parseAdditionalInformation(list,productsEnum);
+        list = parseAdditionalInformation(list,productsEnum, true);
         list = parseSellers(list);
         return list;
     }
@@ -81,7 +80,6 @@ public class Parser {
         log.info("Parsing goods started!");
         log.info("Parsing from " + getProductsUrlByEnum(productsEnum));
         Products allProducts = new Products();
-        List<Product> productsWithManufacturer = new ArrayList<>();
         try
         {
             allProducts = template.getForObject(getProductsUrlByEnum(productsEnum) + (productsEnum == ProductsEnum.COOLING ? "&" : "?") + "limit=36&page=1&price[from]=0.00", Products.class,params);
@@ -120,7 +118,6 @@ public class Parser {
                 }
                 getFixedTimeout(500, TimeUnit.MILLISECONDS);
             }
-            productsWithManufacturer = parseManufacturer(allProducts.getProducts());
             Long endingTime = System.currentTimeMillis();
             long time = (endingTime - startingTime)/1000;
             System.out.println("--------------ПАРСИНГ ОКОНЧЕН ЗА " + time + " СЕКУНД--------------");
@@ -273,10 +270,13 @@ public class Parser {
             try {
                 Product newProduct = getObjectByEnum(productsEnum);
                 newProduct.setInformation(product);
-                if(isAdditionalInformationByEnum(product,productsEnum) && newProduct.getPrices() != null) {
+                if(isAdditionalInformationByEnum(product,productsEnum) && newProduct.getPrices() != null || update) {
                     log.info("Started parsing additional information about " + product.getName() +  " from " + product.getHtml_url());
                     driver.get(product.getHtml_url());
                     Document document = Jsoup.parse(driver.getPageSource());
+                    log.info("Started search of product's images.");
+                    Images images = parseImages(product, document).getImages();
+                    newProduct.setImages(images);
                     Elements elements = document.getElementsByTag("tbody");
                     List<String> values = new ArrayList<>();
                     List<String> keys = new ArrayList<>();
@@ -299,13 +299,18 @@ public class Parser {
                     }
                     LinkedHashMap<String, String> additionalInformation = listsToHashMap(keys,values);
                     newProduct = setAdditionalInformationForProductFromMap(additionalInformation, newProduct);
+                    log.info("Images: " + newProduct.getImages());
                     log.info("Additional Information for " + product.getName() + " parsed.");
                     log.info("keys: " + keys);
                     log.info("values: " + values);
                 }
                 else {
+                    Document document = Jsoup.parse(driver.getPageSource());
                     newProduct = getAdditionalInformationOfProduct(newProduct, product);
                     log.info("Additional information for product " + newProduct.getName() + " already exist.");
+                    log.info("Started search of product's images.");
+                    Images images = parseImages(product, document).getImages();
+                    newProduct.setImages(images);
                 }
                 list.add(newProduct);
                 log.info("Completed : " + String.format("%.2f", (current.get() / size) * 100) + "%");
