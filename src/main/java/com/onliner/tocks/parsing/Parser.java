@@ -1,20 +1,26 @@
 package com.onliner.tocks.parsing;
 
 import com.onliner.tocks.parsing.common.ProductsEnum;
+import com.onliner.tocks.parsing.common.image.Images;
 import com.onliner.tocks.parsing.common.price.Price;
 import com.onliner.tocks.parsing.common.product.Page;
 import com.onliner.tocks.parsing.common.product.Product;
 import com.onliner.tocks.parsing.common.product.Products;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import com.onliner.tocks.parsing.common.sellers.Sellers;
+import com.onliner.tocks.parsing.common.tdp.TDP;
+import com.onliner.tocks.parsing.converter.Converter;
 import com.onliner.tocks.parsing.filters.ProductFilters;
+import com.onliner.tocks.parsing.filters.items.Item;
 import com.onliner.tocks.transform.Transform;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -52,9 +58,18 @@ public class Parser {
     // TODO: 20.11.2021 Рефакторинг метода.
     public List<? extends Product> updateParsing(List<? extends Product> list, ProductsEnum productsEnum) {
         List<? extends Product> products = baseParsing(productsEnum);
-        list.forEach(product -> products.stream().filter(productFromRequest -> product.getId().equals(productFromRequest.getId())).findFirst().ifPresent(product::setInformation));
-        list.stream().filter(product -> products.stream().noneMatch(productFromRequest -> product.getId().equals(productFromRequest.getId()))).forEach(product -> product.setPrices(null));
-        products.removeIf(product -> list.stream().anyMatch(productFromRequest -> product.getId().equals(productFromRequest.getId())));
+        list.forEach(product ->
+                products.stream()
+                        .filter(productFromRequest -> product.getId().equals(productFromRequest.getId()))
+                        .findFirst()
+                        .ifPresent(product::setInformation));
+        list.stream().filter(product ->
+                products.stream()
+                        .noneMatch(productFromRequest -> product.getId().equals(productFromRequest.getId())))
+                        .forEach(product -> product.setPrices(null));
+        products.removeIf(product ->
+                list.stream()
+                    .anyMatch(productFromRequest -> product.getId().equals(productFromRequest.getId())));
         ((List<Product>) list).addAll(products);
         return parseSellers(list);
     }
