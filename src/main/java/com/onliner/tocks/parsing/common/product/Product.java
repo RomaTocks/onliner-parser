@@ -32,7 +32,19 @@ public class Product {
         this.setId(product.getId());
         this.setKey(product.getKey());
         this.setReviews(product.getReviews());
-        this.setImages(product.getImages());
+        if(product.images != null && this.images != null) {
+            if(this.images.getHeader() == null && product.images.getHeader() != null) {
+                this.images.setHeader(product.getImages().getHeader());
+            }
+            else {
+                if(this.images.getImages() == null && product.images.getImages() != null) {
+                    this.images.setImages(product.images.getImages());
+                }
+            }
+        }
+        else {
+            this.setImages(product.getImages());
+        }
         this.setDescription(product.getDescription());
         this.setHtml_url(product.getHtml_url());
         this.setName(product.getName());
