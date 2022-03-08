@@ -341,7 +341,49 @@ public class Parser {
         log.info("Ended parsing additional information for products.");
         return productsWithValues;
     }
-
+    public Product parseImages(Product product, Document document) {
+        log.info("Parsing images for " + product.getName());
+        List<String> imagesURI = new ArrayList<>();
+        Elements galleryWrapper;
+        Images productImages = new Images();
+        if(product.getImages() == null || product.getImages().getImages() == null) {
+            if (product.getImages() != null && product.getImages().getHeader() != null)
+            {
+                    productImages = product.getImages();
+            }
+            else {
+                if(product.getImages().getHeader() != null) {
+                    productImages.setHeader(product.getImages().getHeader());
+                }
+            }
+            Element images = document.getElementById("product-gallery");
+            if (images != null)
+            {
+                galleryWrapper = images.getElementsByClass("product-gallery__shaft");
+                Element gallery = galleryWrapper.first();
+                if (gallery != null)
+                {
+                    Elements imagesWrappers = gallery.getAllElements();
+                    for (Element image : imagesWrappers)
+                    {
+                        String imageURL = image.attr("data-original");
+                        if(!imageURL.trim().isEmpty()) {
+                            imagesURI.add(imageURL);
+                        }
+                    }
+                }
+                productImages.setImages(imagesURI);
+                product.setImages(productImages);
+            }
+            else {
+                log.info("Not found images for product " + product.getName());
+            }
+        }
+        else {
+            log.info("Images for product " + product.getName() + " already exist!");
+        }
+        return product;
+    }
     public List<ProductFilters> parseProductFilters() {
         RestTemplate template = new RestTemplate();
         List<ProductFilters> productFilters = new ArrayList<>();
