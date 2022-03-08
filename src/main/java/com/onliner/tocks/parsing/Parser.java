@@ -333,10 +333,11 @@ public class Parser {
                 System.out.println();
             }
             catch (Exception exception) {
-                exception.printStackTrace();
+                log.error("Exception while parsing additional information.");
             }
         });
-        List<? extends Product> productsWithValues = Transform.getValuesFromAdditional(list,productsEnum);
+        List<Product> productsWithManufacturer = parseManufacturer(list);
+        List<? extends Product> productsWithValues = Transform.getValuesFromAdditional(productsWithManufacturer,productsEnum);
         driver.close();
         log.info("Ended parsing additional information for products.");
         return productsWithValues;
