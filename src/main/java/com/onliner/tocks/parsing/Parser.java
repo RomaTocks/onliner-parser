@@ -187,7 +187,61 @@ public class Parser {
         });
         return products;
     }
-    public List<? extends Product> parseAdditionalInformation(List<? extends Product> productsList, ProductsEnum productsEnum) {
+    public List<TDP> parseTDP(ProductFilters graphicCardFilter, List<TDP> tdpList) {
+        WebDriver driver = getWebDriver();
+        log.info("Parsing of videocards TDP started.");
+        List<Item> graphicCardNames = graphicCardFilter.getDictionaries().get("desktop_gpu");
+        System.out.println(graphicCardNames.size());
+        graphicCardNames.removeIf(product ->
+                tdpList.stream()
+                        .anyMatch(productFromRequest -> product.getId().equals(productFromRequest.getId())));
+        System.out.println(graphicCardNames.size());
+        List<TDP> tdps = new ArrayList<>();
+        Double size = (double) graphicCardNames.size();
+        AtomicReference<Double> current = new AtomicReference<>((double) 0);
+        try {
+            graphicCardNames.forEach(item -> {
+                current.getAndSet(current.get() + 1);
+                TDP tdp = new TDP();
+                driver.get("https://www.techpowerup.com/gpu-specs/");
+                WebElement input = driver.findElement(new By.ById("quicksearch"));
+                getFixedTimeout(4, TimeUnit.SECONDS);
+                input.sendKeys(item.getName());
+                input.submit();
+                log.info("Search TDP for " + item.getName());
+                tdp.setId(item.getId());
+                tdp.setName(item.getName());
+                getFixedTimeout(4,TimeUnit.SECONDS);
+                Document document = Jsoup.parse(driver.getPageSource());
+                Element ajax = document.getElementById("ajaxresults");
+                Element table = ajax.getElementsByTag("table").first();
+                if( table != null) {
+                    Element tbody = table.getElementsByTag("tbody").first();
+                    Element tr = tbody.getElementsByTag("tr").first();
+                    Element td = tr.getElementsByTag("td").first();
+                    String href = td.getElementsByTag("a").first().attr("href");
+                    log.info("Started parsing TDP of " + item.getName() + " from " + "https://www.techpowerup.com" + href);
+                    driver.get("https://www.techpowerup.com" + href);
+                    getFixedTimeout(4,TimeUnit.SECONDS);
+                    document = Jsoup.parse(driver.getPageSource());
+                    String TDP = document.select("dt:contains(TDP)").first().nextElementSibling().text();
+                    tdp.setTdp(TDP);
+                    tdp.setTdpValue(Converter.getIntegersFromString(TDP));
+                    tdps.add(tdp);
+                    log.info("TDP:" + tdp);
+                    log.info("Completed : " + String.format("%.2f", (current.get() / size) * 100) + "%, " + current + " from " + graphicCardNames.size());
+                }
+            });
+        }
+        catch (Exception exception) {
+            log.error("Exception while parsing TDP.");
+        }
+        driver.close();
+        log.info("Parsing of TDPs ended.");
+        return tdps;
+    }
+
+    public List<? extends Product> parseAdditionalInformation(List<? extends Product> productsList, ProductsEnum productsEnum, boolean update) {
         WebDriver driver = getWebDriver();
         List<Product> list = new ArrayList<>();
         log.info("Started parsing additional information for products.");
