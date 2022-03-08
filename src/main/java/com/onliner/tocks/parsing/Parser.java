@@ -126,7 +126,7 @@ public class Parser {
             System.out.println("--------------ПАРСИНГ ОКОНЧЕН ЗА " + time + " СЕКУНД--------------");
             log.info("Total goods: " + allProducts.getTotal());
         }
-        return transformList(allProducts != null ? productsWithManufacturer : new ArrayList<>(),productsEnum);
+        return transformList(allProducts != null ? allProducts.getProducts() : new ArrayList<>(),productsEnum);
     }
     public List<Product> parseManufacturer(List<Product> products) {
         RestTemplate template = new RestTemplate();
@@ -136,15 +136,21 @@ public class Parser {
         products.forEach(product -> {
             count.getAndSet(count.get() + 1);
             if(product.getManufacturer() == null) {
-                Product productWithManufacturer = template.getForObject("https://catalog.api.onliner.by/products/" + product.getKey(), Product.class);
-                if (productWithManufacturer != null) {
-                    product.setManufacturer(productWithManufacturer.getManufacturer());
-                    log.info("Manufacturer key:" + product.getManufacturer().getKey() + " name:" + product.getManufacturer().getName());
+                try {
+                    log.info("Parsing manufacturer for " + product.getName());
+                    Product productWithManufacturer = template.getForObject("https://catalog.api.onliner.by/products/" + product.getKey(), Product.class);
+                    if (productWithManufacturer != null) {
+                        product.setManufacturer(productWithManufacturer.getManufacturer());
+                        log.info("Manufacturer key:" + product.getManufacturer().getKey() + " name:" + product.getManufacturer().getName());
+                    }
+                    else {
+                        log.info("Manufacturer for product " + product.getName() + " doesn't exist!");
+                    }
+                    getTimeout();
                 }
-                else {
-                    log.info("Manufacturer for product " + product.getName() + " doesn't exist!");
+                catch (Exception exception) {
+                    log.error("Exception while parsing manufacturer for product " + product.getName());
                 }
-                getTimeout();
             }
             else {
                 log.info("Manufacturer for " + product.getName() + " already parsed!");
