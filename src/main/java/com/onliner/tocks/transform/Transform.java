@@ -198,6 +198,7 @@ public class Transform
                     psuAdditionalValues.setPower(checkStringInteger(additional.getPower()));
                     psuAdditionalValues.setHeight(checkStringInteger(additional.getHeight()));
                     psuAdditionalValues.setWidth(checkStringInteger(additional.getWidth()));
+                    psu.setValues(psuAdditionalValues);
                 });
                 return psus;
             case MOTHERBOARDS:
@@ -206,6 +207,7 @@ public class Transform
                     MotherboardAdditionalValues values = new MotherboardAdditionalValues();
                     MotherboardAdditionalInformation additional = motherboard.getAdditional();
                     values.setChassisFan(checkStringInteger(additional.getChassisFan()));
+                    motherboard.setValues(values);
 
                 });
                 return motherboards;
