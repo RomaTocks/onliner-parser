@@ -268,4 +268,25 @@ public class AdditionalInformation {
         }
         return chassis;
     }
+    public static List<GraphicCard> setGraphicCardsTDP(List<GraphicCard> graphicCards, List<TDP> tdpList) {
+        log.info("Setting TDP to graphic cards.");
+        log.info("Remove nullable additional from target list...");
+        graphicCards.removeIf(graphicCard -> graphicCard.getAdditional() == null || graphicCard.getValues() == null);
+        log.info("Remove graphic cards with TDP from target list...");
+        graphicCards.removeIf(graphicCard -> graphicCard.getAdditional().getTdp() != null && graphicCard.getValues().getTdp() != null);
+        graphicCards.forEach(graphicCard -> tdpList.stream()
+           .filter(tdp -> tdp.getName().equals(graphicCard.getAdditional().getGpu()))
+           .findFirst()
+           .ifPresent(tdp -> {
+                GraphicCardAdditionalInformation graphicCardAdditionalInformation = graphicCard.getAdditional();
+                GraphicCardAdditionalValues graphicCardAdditionalValues = graphicCard.getValues();
+                graphicCardAdditionalInformation.setTdp(tdp.getTdp());
+                graphicCardAdditionalValues.setTdp(tdp.getTdpValue());
+                graphicCard.setAdditional(graphicCardAdditionalInformation);
+                graphicCard.setValues(graphicCardAdditionalValues);
+           })
+        );
+        log.info("Setting TDP ended.");
+        return graphicCards;
+    }
 }
