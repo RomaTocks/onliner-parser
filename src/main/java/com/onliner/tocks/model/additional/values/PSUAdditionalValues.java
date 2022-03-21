@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class PSUAdditionalValues
 {
     private Integer power;
-    private Integer width;
-    private Integer height;
-    private Integer depth;
+    private Double width;
+    private Double height;
+    private Double depth;
 }

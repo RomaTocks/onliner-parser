@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FanAdditionalValues
 {
-    private Integer width;
-    private Integer height;
+    private Double width;
+    private Double height;
     private Double weight;
     private Integer depth;
-    private Integer diameterFan;
+    private Double diameterFan;
     private Integer dispelPower;
 }

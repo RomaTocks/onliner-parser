@@ -17,7 +17,8 @@ public class GraphicCardAdditionalValues
     private Integer memoryBandwidth;
     private Integer memoryBusWidth;
     private Integer PSU;
-    private Integer length;
-    private Integer height;
+    private Integer tdp;
+    private Double length;
+    private Double height;
     private Integer fanCount;
 }

@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 public class ChassisAdditionalValues
 {
     private Integer fanKit;
-    private Integer length;
-    private Integer height;
+    private Double length;
+    private Double height;
     private Double weight;
-    private Integer depth;
-    private Integer maxGPULength;
-    private Integer maxCPUCoolingSystemHeight;
-    private Integer maxPSULength;
+    private Double depth;
+    private Double maxGPULength;
+    private Double maxCPUCoolingSystemHeight;
+    private Double maxPSULength;
 }
