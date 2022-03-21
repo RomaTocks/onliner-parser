@@ -26,5 +26,7 @@ public class CPUAdditionalInformation {
     private String l3cache;
     private String stockCooling;
     private String cpuGraphics;
+    private String techProcess;
+    private String multiThread;
     // TODO: 20.11.2021 Дописать класс.
 }

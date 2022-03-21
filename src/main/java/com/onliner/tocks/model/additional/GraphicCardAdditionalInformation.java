@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class GraphicCardAdditionalInformation
 {
     private String birthday;
+    private String tdp;
     private String gpuInterface;
     private String manufacturer;
     private String gpu;
@@ -30,6 +31,9 @@ public class GraphicCardAdditionalInformation
     private String powerConnectors;
     private String PSU;
     private String length;
+    private String height;
+    private String cooling;
+    private String fanCount;
     private String hdmi;
     private String miniHdmi;
     private String vga;

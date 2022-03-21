@@ -17,6 +17,17 @@ public class FanAdditionalInformation {
     private String PWM;
     private String connectType;
     private String depth;
+    private String evaporation;
+    private String fanCount;
+    private String bearing;
+    private String flow;
+    private String thermalControl;
+    private String LED;
+    private String vibration;
+    private String noise;
+    private String width;
+    private String height;
+    private String weight;
     // TODO: 20.11.2021 Дописать класс.
 
 }

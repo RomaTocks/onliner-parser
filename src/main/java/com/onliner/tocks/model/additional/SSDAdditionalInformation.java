@@ -19,5 +19,8 @@ public class SSDAdditionalInformation {
     private String workTime;
     private String controller;
     private String m2Size;
+    private String recordResource;
+    private String encryption;
+    private String backlight;
     // TODO: 20.11.2021 Дописать класс.
 }

@@ -19,5 +19,6 @@ public class PSUAdditionalInformation {
     private String height;
     private String depth;
     private String ide4pin;
+    private String range;
     // TODO: 20.11.2021 Дописать класс.
 }

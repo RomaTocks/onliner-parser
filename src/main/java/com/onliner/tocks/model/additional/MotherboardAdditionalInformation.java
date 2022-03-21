@@ -24,6 +24,14 @@ public class MotherboardAdditionalInformation {
     private String chassisFan;
     private String length;
     private String height;
+    private String chipset;
+    private String backlight;
+    private String memoryType;
+    private String memorySlots;
+    private String width;
+    private String integratedGraphics;
+    private String sli;
+    private String hdmi;
     // TODO: 20.11.2021 Дописать класс.
 
 }
