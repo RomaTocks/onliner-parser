@@ -119,6 +119,20 @@ public class AdditionalInformation {
             case "Базовая (референсная) частота графического процессора" : graphicCard.setBaseFrequency(value);break;
             case "Максимальная частота графического процессора" : graphicCard.setTurboFrequency(value);break;
             case "Количество потоковых процессоров" : graphicCard.setStreamCores(value);break;
+            case "Длина видеокарты" : graphicCard.setLength(value);break;
+            case "Высота видеокарты" : graphicCard.setHeight(value);break;
+            case "Рекомендуемый блок питания" : graphicCard.setPSU(value);break;
+            case "Эффективная частота памяти" : graphicCard.setMemoryFrequency(value);break;
+            case "Пропускная способность памяти" : graphicCard.setMemoryBandwidth(value);break;
+            case "Ширина шины памяти" : graphicCard.setMemoryBusWidth(value);break;
+            case "Поддержка DirectX" : graphicCard.setDirectx(value);break;
+            case "Поддержка SLI/CrossFire" : graphicCard.setSliCrossFire(value);break;
+            case "Разъёмы питания" : graphicCard.setPowerConnectors(value);break;
+            case "Охлаждение" : graphicCard.setCooling(value);break;
+            case "Количество вентиляторов" : graphicCard.setFanCount(value);break;
+            case "HDMI" : graphicCard.setHdmi(value);break;
+            case "DisplayPort" : graphicCard.setDisplayPort(value);break;
+            case "mini HDMI" : graphicCard.setMiniHdmi(value);break;
         }
         return graphicCard;
     }
