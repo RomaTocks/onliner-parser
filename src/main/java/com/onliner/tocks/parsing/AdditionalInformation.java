@@ -2,13 +2,18 @@ package com.onliner.tocks.parsing;
 
 import com.onliner.tocks.model.*;
 import com.onliner.tocks.model.additional.*;
-import com.onliner.tocks.parsing.common.product.Product;
+import com.onliner.tocks.model.additional.values.GraphicCardAdditionalValues;
 import com.onliner.tocks.parsing.common.ProductsEnum;
+import com.onliner.tocks.parsing.common.product.Product;
+import com.onliner.tocks.parsing.common.tdp.TDP;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Component
+@Slf4j
 public class AdditionalInformation {
 
     public static Product setAdditionalInformationForProductFromMap(HashMap<String,String> map, Product product) {
@@ -157,6 +162,10 @@ public class AdditionalInformation {
             case "Макс. частота памяти" : cpu.setRamFrequency(value);break;
             case "Встроенный контроллер PCI Express" : cpu.setCpuPciExpress(value);break;
             case "Встроенная графика" : cpu.setCpuGraphics(value);break;
+            case "Кэш L2" : cpu.setL2cache(value);break;
+            case "Кэш L3" : cpu.setL3cache(value);break;
+            case "Техпроцесс" : cpu.setTechProcess(value);break;
+            case "Многопоточность ядра" : cpu.setMultiThread(value);break;
         }
         return cpu;
     }
