@@ -174,13 +174,28 @@ public class AdditionalInformation {
     public static FanAdditionalInformation setAdditionalInformationForFan(String key, String value, FanAdditionalInformation fan) {
         switch (key)
         {
-            case "Охлаждение" : fan.setCoolingType(value);
-            case "Цвет" : fan.setColor(value);
-            case "Сокет" : fan.setSocket(value);
-            case "Рассеиваемая мощность" : fan.setDispelPower(value);
-            case "Тепловые трубки" : fan.setHeatPipes(value);
-            case "Диаметр вентилятора" : fan.setDiameterFan(value);
-            case "Максимальная скорость вращения" : fan.setMaxSpeed(value);
+            case "Охлаждение" : fan.setCoolingType(value);break;
+            case "Цвет" : fan.setColor(value);break;
+            case "Сокет" : fan.setSocket(value);break;
+            case "Рассеиваемая мощность" : fan.setDispelPower(value);break;
+            case "Тепловые трубки" : fan.setHeatPipes(value);break;
+            case "Диаметр вентилятора" : fan.setDiameterFan(value);break;
+            case "Максимальная скорость вращения" : fan.setMaxSpeed(value);break;
+            case "Материал радиатора" : fan.setMaterial(value);break;
+            case "Испарительные камеры" : fan.setEvaporation(value);break;
+            case "Количество вентиляторов" : fan.setFanCount(value);break;
+            case "Подшипник" : fan.setBearing(value);break;
+            case "Максимальный воздушный поток" : fan.setFlow(value);break;
+            case "Контроль скорости вращения (PWM)" : fan.setPWM(value);break;
+            case "Термоконтроль" : fan.setThermalControl(value);break;
+            case "Тип подключения" : fan.setConnectType(value);break;
+            case "LED-подсветка" : fan.setLED(value);break;
+            case "Виброизоляция" : fan.setVibration(value);break;
+            case "Максимальный уровень шума" : fan.setNoise(value);break;
+            case "Ширина" : fan.setWidth(value);break;
+            case "Глубина" : fan.setDepth(value);break;
+            case "Высота (толщина)" : fan.setHeight(value);break;
+            case "Вес" : fan.setWeight(value);break;
         }
         return fan;
     }
