@@ -204,16 +204,21 @@ public class AdditionalInformation {
     public static SSDAdditionalInformation setAdditionalInformationForSSD(String key, String value, SSDAdditionalInformation ssd) {
         switch (key)
         {
-            case "Дата выхода на рынок" : ssd.setBirthday(value);
-            case "Адаптер 3.5\"" : ssd.setAdapter(value);
-            case "Скорость последовательного чтения" : ssd.setReadSpeed(value);
-            case "Скорость последовательной записи" : ssd.setWriteSpeed(value);
-            case "Время наработки на отказ (МТBF)" : ssd.setWorkTime(value);
-            case "Контроллер" : ssd.setController(value);
-            case "Интерфейс" : ssd.setSsdInterface(value);
-            case "Тип микросхем Flash" : ssd.setMicroType(value);
-            case "Форм-фактор" : ssd.setFormFactor(value);
-            case "Объём" : ssd.setVolume(value);
+            case "Дата выхода на рынок" : ssd.setBirthday(value);break;
+            case "Адаптер 3.5\"" : ssd.setAdapter(value);break;
+            case "Скорость последовательного чтения" : ssd.setReadSpeed(value);break;
+            case "Скорость последовательной записи" : ssd.setWriteSpeed(value);break;
+            case "Время наработки на отказ (МТBF)" : ssd.setWorkTime(value);break;
+            case "Контроллер" : ssd.setController(value);break;
+            case "Интерфейс" : ssd.setSsdInterface(value);break;
+            case "Тип микросхем Flash" : ssd.setMicroType(value);break;
+            case "Форм-фактор" : ssd.setFormFactor(value);break;
+            case "Объём" : ssd.setVolume(value);break;
+            case "Размеры устройств M.2" : ssd.setM2Size(value);break;
+            case "Ресурс записи" : ssd.setRecordResource(value);break;
+            case "Аппаратное шифрование" : ssd.setEncryption(value);break;
+            case "Охлаждение" : ssd.setCooling(value);break;
+            case "Подсветка" : ssd.setBacklight(value);break;
         }
         return ssd;
     }
@@ -222,12 +227,19 @@ public class AdditionalInformation {
     public static HDDAdditionalInformation setAdditionalInformationForHDD(String key, String value, HDDAdditionalInformation hdd) {
         switch (key)
         {
-            case "Скорость последовательного чтения" : hdd.setReadSpeed(value);
-            case "Скорость последовательной записи" : hdd.setWriteSpeed(value);
-            case "Форм-фактор" : hdd.setFormFactor(value);
-            case "Скорость вращения шпинделя" : hdd.setSpindleSpeed(value);
-            case "Буфер" : hdd.setBuffer(value);
-            case "Объём" : hdd.setVolume(value);
+            case "Скорость последовательного чтения" : hdd.setReadSpeed(value);break;
+            case "Скорость последовательной записи" : hdd.setWriteSpeed(value);break;
+            case "Форм-фактор" : hdd.setFormFactor(value);break;
+            case "Скорость вращения шпинделя" : hdd.setSpindleSpeed(value);break;
+            case "Буфер" : hdd.setBuffer(value);break;
+            case "Объём" : hdd.setVolume(value);break;
+            case "Интерфейс" : hdd.setHddInterface(value);break;
+            case "Аппаратное шифрование" : hdd.setEncryption(value);break;
+            case "Размер сектора" : hdd.setSectorSize(value);break;
+            case "Уровень шума при чтении/записи" : hdd.setReadOrWriteNoise(value);break;
+            case "Уровень шума в режиме ожидания" : hdd.setWaitingNoise(value);break;
+            case "Энергопотребление (чтение/запись)" : hdd.setPowerUsage(value);break;
+            case "Толщина" : hdd.setDepth(value);break;
         }
         return hdd;
     }
@@ -236,18 +248,19 @@ public class AdditionalInformation {
     public static PSUAdditionalInformation setAdditionalInformationForPSU(String key, String value, PSUAdditionalInformation psu) {
         switch (key)
         {
-            case "Мощность" : psu.setPower(value);
-            case "Стандарт блока питания" : psu.setStandard(value);
-            case "КПД" : psu.setEfficiency(value);
-            case "Сертификат 80 PLUS" : psu.setCertificate(value);
-            case "Размер вентилятора блока питания" : psu.setFan(value);
-            case "CPU 4 pin" : psu.setCpu4pin(value);
-            case "PCIe 6 pin" : psu.setPcie6pin(value);
-            case "PCIe 8 pin" : psu.setPcie8pin(value);
-            case "Высота" : psu.setHeight(value);
-            case "Ширина" : psu.setWidth(value);
-            case "Глубина" : psu.setDepth(value);
-            case "IDE 4 pin" : psu.setIde4pin(value);
+            case "Мощность" : psu.setPower(value);break;
+            case "Стандарт блока питания" : psu.setStandard(value);break;
+            case "КПД" : psu.setEfficiency(value);break;
+            case "Сертификат 80 PLUS" : psu.setCertificate(value);break;
+            case "Размер вентилятора блока питания" : psu.setFan(value);break;
+            case "CPU 4 pin" : psu.setCpu4pin(value);break;
+            case "PCIe 6 pin" : psu.setPcie6pin(value);break;
+            case "PCIe 8 pin" : psu.setPcie8pin(value);break;
+            case "Высота" : psu.setHeight(value);break;
+            case "Ширина" : psu.setWidth(value);break;
+            case "Глубина" : psu.setDepth(value);break;
+            case "IDE 4 pin" : psu.setIde4pin(value);break;
+            case "Диапазон входного напряжения сети" : psu.setRange(value);break;
         }
         return psu;
     }
@@ -256,14 +269,25 @@ public class AdditionalInformation {
     public static MotherboardAdditionalInformation setAdditionalInformationForMotherboard(String key, String value, MotherboardAdditionalInformation motherboard) {
         switch (key)
         {
-            case "Дата выхода на рынок" : motherboard.setBirthday(value);
-            case "Сокет" : motherboard.setSocket(value);
-            case "Форм-фактор" : motherboard.setFormFactor(value);
-            case "Максимальный объём памяти" : motherboard.setMaxMemory(value);
-            case "Режим памяти" : motherboard.setMemoryMode(value);
-            case "Максимальная частота памяти" : motherboard.setMaxMemoryFrequency(value);
-            case "M.2" : motherboard.setM2(value);
-            case "SATA 3.0" : motherboard.setSata3(value);
+            case "Дата выхода на рынок" : motherboard.setBirthday(value);break;
+            case "Сокет" : motherboard.setSocket(value);break;
+            case "Форм-фактор" : motherboard.setFormFactor(value);break;
+            case "Максимальный объём памяти" : motherboard.setMaxMemory(value);break;
+            case "Режим памяти" : motherboard.setMemoryMode(value);break;
+            case "Максимальная частота памяти" : motherboard.setMaxMemoryFrequency(value);break;
+            case "M.2" : motherboard.setM2(value);break;
+            case "SATA 3.0" : motherboard.setSata3(value);break;
+            case "Поддержка процессоров" : motherboard.setCpuSupport(value);break;
+            case "Чипсет" : motherboard.setChipset(value);break;
+            case "Подсветка" : motherboard.setBacklight(value);break;
+            case "Тип памяти" : motherboard.setMemoryType(value);break;
+            case "Количество слотов памяти" : motherboard.setMemorySlots(value);break;
+            case "Длина" : motherboard.setLength(value);break;
+            case "Ширина" : motherboard.setWidth(value);break;
+            case "Wi-Fi" : motherboard.setWifi(value);break;
+            case "Поддержка встроенной графики" : motherboard.setIntegratedGraphics(value);break;
+            case "Поддержка SLi/CrossFire" : motherboard.setSli(value);break;
+            case "HDMI" : motherboard.setHdmi(value);break;
         }
         return motherboard;
     }
@@ -272,12 +296,12 @@ public class AdditionalInformation {
     public static RamAdditionalInformation setAdditionalInformationForRam(String key, String value, RamAdditionalInformation ram) {
         switch (key)
         {
-            case "Набор" : ram.setKit(value);
-            case "Объем" : ram.setValue(value);
-            case "Тип" : ram.setType(value);
-            case "Частота" : ram.setFrequency(value);
-            case "Тайминги" : ram.setTiming(value);
-            case "Профили XMP" : ram.setXmp(value);
+            case "Набор" : ram.setKit(value);break;
+            case "Объем" : ram.setValue(value);break;
+            case "Тип" : ram.setType(value);break;
+            case "Частота" : ram.setFrequency(value);break;
+            case "Тайминги" : ram.setTiming(value);break;
+            case "Профили XMP" : ram.setXmp(value);break;
         }
         return ram;
     }
@@ -286,23 +310,23 @@ public class AdditionalInformation {
     public static ChassisAdditionalInformation setAdditionalInformationForChassis(String key, String value, ChassisAdditionalInformation chassis) {
         switch (key)
         {
-            case "Блок питания" : chassis.setPsuKit(value);
-            case "Тип корпуса" : chassis.setType(value);
-            case "Цвет корпуса" : chassis.setColor(value);
-            case "Материал окна" : chassis.setWindowMaterial(value);
-            case "Макс. размер материнской платы" : chassis.setMaxSizeOfMotherboard(value);
-            case "Совместимые материнские платы" : chassis.setMotherboardsCompatibleSizes(value);
-            case "Расположение блока питания" : chassis.setPsuLocation(value);
-            case "Поддержка жидкостного охлаждения" : chassis.setWaterCoolingSupport(value);
-            case "Количество мест для вентиляторов" : chassis.setFanSection(value);
-            case "Установленные вентиляторы" : chassis.setFanKit(value);
-            case "Макс. длина видеокарты" : chassis.setMaxGPULength(value);
-            case "Макс. высота процессорного кулера" : chassis.setMaxCPUCoolingSystemHeight(value);
-            case "Макс. длина блока питания" : chassis.setMaxPSULength(value);
-            case "Высота" : chassis.setHeight(value);
-            case "Ширина" : chassis.setWidth(value);
-            case "Глубина" : chassis.setDepth(value);
-            case "Вес" : chassis.setWeight(value);
+            case "Блок питания" : chassis.setPsuKit(value);break;
+            case "Тип корпуса" : chassis.setType(value);break;
+            case "Цвет корпуса" : chassis.setColor(value);break;
+            case "Материал окна" : chassis.setWindowMaterial(value);break;
+            case "Макс. размер материнской платы" : chassis.setMaxSizeOfMotherboard(value);break;
+            case "Совместимые материнские платы" : chassis.setMotherboardsCompatibleSizes(value);break;
+            case "Расположение блока питания" : chassis.setPsuLocation(value);break;
+            case "Поддержка жидкостного охлаждения" : chassis.setWaterCoolingSupport(value);break;
+            case "Количество мест для вентиляторов" : chassis.setFanSection(value);break;
+            case "Установленные вентиляторы" : chassis.setFanKit(value);break;
+            case "Макс. длина видеокарты" : chassis.setMaxGPULength(value);break;
+            case "Макс. высота процессорного кулера" : chassis.setMaxCPUCoolingSystemHeight(value);break;
+            case "Макс. длина блока питания" : chassis.setMaxPSULength(value);break;
+            case "Высота" : chassis.setHeight(value);break;
+            case "Ширина" : chassis.setWidth(value);break;
+            case "Глубина" : chassis.setDepth(value);break;
+            case "Вес" : chassis.setWeight(value);break;
         }
         return chassis;
     }
