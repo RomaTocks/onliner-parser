@@ -4,6 +4,10 @@ import com.onliner.tocks.model.*;
 import com.onliner.tocks.parsing.Parser;
 import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.parsing.common.product.Product;
+import com.onliner.tocks.parsing.common.tdp.TDP;
+import com.onliner.tocks.parsing.filters.ProductFilters;
+import com.onliner.tocks.repository.FilterRepository;
+import com.onliner.tocks.repository.TDPRepository;
 import com.onliner.tocks.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static com.onliner.tocks.timeout.Timeout.getChapterTimeout;
+import static com.onliner.tocks.parsing.AdditionalInformation.setGraphicCardsTDP;
 
 @RestController
 @RequestMapping("/parsing")
 @Slf4j
 public class MainParsingController
 {
+    private final TDPRepository tdpRepository;
+    private final FilterRepository filterRepository;
     private final CpuService cpuService;
     private final GraphicCardService graphicCardService;
     private final FanService fanService;
@@ -33,8 +40,10 @@ public class MainParsingController
     private final Parser parser;
 
     @Autowired
-    public MainParsingController(CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, ChassisService chassisService, Parser parser)
+    public MainParsingController(TDPRepository tdpRepository, FilterRepository filterRepository, CpuService cpuService, GraphicCardService graphicCardService, FanService fanService, HDDService hddService, SSDService ssdService, PSUService psuService, MotherboardService motherboardService, RamService ramService, ChassisService chassisService, Parser parser)
     {
+        this.tdpRepository = tdpRepository;
+        this.filterRepository = filterRepository;
         this.cpuService = cpuService;
         this.graphicCardService = graphicCardService;
         this.fanService = fanService;
@@ -47,6 +56,16 @@ public class MainParsingController
         this.parser = parser;
     }
 
+    @PutMapping("/tdp")
+    public void getTDPs() {
+        Optional<ProductFilters> graphicCardFilters = filterRepository.findById("GRAPHIC_CARDS");
+        if(graphicCardFilters.isPresent()) {
+            List<TDP> list = tdpRepository.findAll();
+            tdpRepository.saveAll(parser.parseTDP(graphicCardFilters.get(), list));
+            list = tdpRepository.findAll();
+            graphicCardService.saveAll(setGraphicCardsTDP(graphicCardService.findAllByPositionsNotNull(),list));
+        }
+    }
     @PutMapping()
     public void updateParsingOfAccessories() {
 
@@ -57,11 +76,20 @@ public class MainParsingController
             System.out.println();
             List<? extends Product> list = parser.updateParsing(choiceGetService(productsEnum,false),productsEnum);
             choiceSavingService(list);
-            getChapterTimeout();
             List<? extends Product> notNullPriceList = choiceGetService(productsEnum,true);
-            List<? extends Product> listWithAdditional = parser.parseAdditionalInformation(notNullPriceList, productsEnum);
+            List<? extends Product> listWithAdditional = parser.parseAdditionalInformation(notNullPriceList, productsEnum, true);
             choiceSavingService(listWithAdditional);
-            getChapterTimeout();
+        }
+    }
+    @PutMapping("/full")
+    public void fullParsingOfAccessories() {
+        for (ProductsEnum productsEnum : ProductsEnum.values())
+        {
+            System.out.println();
+            log.info("\u001B[45mParsing of " + productsEnum.name() + "\u001B[0m");
+            System.out.println();
+            List<? extends Product> list = parser.fullInformationParsing(productsEnum);
+            choiceSavingService(list);
         }
     }
     public List<? extends Product> choiceGetService(ProductsEnum productsEnum, boolean sellersNotNull) {
