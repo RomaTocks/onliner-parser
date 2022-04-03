@@ -42,47 +42,47 @@ public class AdditionalParsingController
     }
     @PutMapping("/cpu")
     public void parsingAdditionalInformationOfProcessors() {
-        List<CPU> cpus = (List<CPU>) parser.parseAdditionalInformation(cpuService.findAllByPositionsNotNull(),ProductsEnum.PROCESSORS);
+        List<CPU> cpus = (List<CPU>) parser.parseAdditionalInformation(cpuService.findAllByPositionsNotNull(),ProductsEnum.PROCESSORS, true);
         cpuService.saveAll(cpus);
     }
     @PutMapping("/gpu")
     public void parsingAdditionalInformationOfGraphicCards() {
-        List<GraphicCard> graphicCards = (List<GraphicCard>) parser.parseAdditionalInformation(graphicCardService.findAllByPositionsNotNull(),ProductsEnum.GRAPHIC_CARDS);
+        List<GraphicCard> graphicCards = (List<GraphicCard>) parser.parseAdditionalInformation(graphicCardService.findAllByPositionsNotNull(),ProductsEnum.GRAPHIC_CARDS, true);
         graphicCardService.saveAll(graphicCards);
     }
     @PutMapping("/ssd")
     public void parsingAdditionalInformationOfSSD() {
-        List<SSD> ssds = (List<SSD>) parser.parseAdditionalInformation(ssdService.findAllByPositionsNotNull(),ProductsEnum.SSD);
+        List<SSD> ssds = (List<SSD>) parser.parseAdditionalInformation(ssdService.findAllByPositionsNotNull(),ProductsEnum.SSD, true);
         ssdService.saveAll(ssds);
     }
     @PutMapping("/hdd")
     public void parsingAdditionalInformationOfHDD() {
-        List<HDD> hdds = (List<HDD>) parser.parseAdditionalInformation(hddService.findAllByPositionsNotNull(),ProductsEnum.HDD);
+        List<HDD> hdds = (List<HDD>) parser.parseAdditionalInformation(hddService.findAllByPositionsNotNull(),ProductsEnum.HDD, true);
         hddService.saveAll(hdds);
     }
     @PutMapping("/motherboard")
     public void parsingAdditionalInformationOfMotherboard() {
-        List<Motherboard> motherboards = (List<Motherboard>) parser.parseAdditionalInformation(motherboardService.findAllByPositionsNotNull(),ProductsEnum.MOTHERBOARDS);
+        List<Motherboard> motherboards = (List<Motherboard>) parser.parseAdditionalInformation(motherboardService.findAllByPositionsNotNull(), ProductsEnum.MOTHERBOARDS, true);
         motherboardService.saveAll(motherboards);
     }
     @PutMapping("/psu")
     public void parsingAdditionalInformationOfPSU() {
-        List<PSU> psus = (List<PSU>) parser.parseAdditionalInformation(psuService.findAllByPositionsNotNull(),ProductsEnum.PSU);
+        List<PSU> psus = (List<PSU>) parser.parseAdditionalInformation(psuService.findAllByPositionsNotNull(),ProductsEnum.PSU, true);
         psuService.saveAll(psus);
     }
     @PutMapping("/ram")
     public void parsingAdditionalInformationOfRam() {
-        List<Ram> rams = (List<Ram>) parser.parseAdditionalInformation(ramService.findAllByPositionsNotNull(),ProductsEnum.RAM);
+        List<Ram> rams = (List<Ram>) parser.parseAdditionalInformation(ramService.findAllByPositionsNotNull(),ProductsEnum.RAM, true);
         ramService.saveAll(rams);
     }
     @PutMapping("/fan")
     public void parsingAdditionalInformationForFan() {
-        List<Fan> fans = (List<Fan>) parser.parseAdditionalInformation(fanService.findAllByPositionsNotNull(),ProductsEnum.COOLING);
+        List<Fan> fans = (List<Fan>) parser.parseAdditionalInformation(fanService.findAllByPositionsNotNull(),ProductsEnum.COOLING, true);
         fanService.saveAll(fans);
     }
     @PutMapping("/chassis")
     public void parsingAdditionalInformationOfChassis() {
-        List<Chassis> chassis = (List<Chassis>) parser.parseAdditionalInformation(chassisService.findAllByPositionsNotNull(),ProductsEnum.CHASSIS);
+        List<Chassis> chassis = (List<Chassis>) parser.parseAdditionalInformation(chassisService.findAllByPositionsNotNull(),ProductsEnum.CHASSIS, true);
         chassisService.saveAll(chassis);
     }
 }
