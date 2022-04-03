@@ -1,6 +1,7 @@
 package com.onliner.tocks.scheduler;
 
 import com.onliner.tocks.controller.parsing.AdditionalParsingController;
+import com.onliner.tocks.controller.parsing.MainParsingController;
 import com.onliner.tocks.controller.parsing.PriceParsingController;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,13 +13,20 @@ public class Scheduler
 {
     private final PriceParsingController priceParsingController;
     private final AdditionalParsingController additionalParsingController;
+    private final MainParsingController mainParsingController;
 
-    public Scheduler(PriceParsingController priceParsingController, AdditionalParsingController additionalParsingController)
+
+    public Scheduler(PriceParsingController priceParsingController, AdditionalParsingController additionalParsingController, MainParsingController mainParsingController)
     {
         this.priceParsingController = priceParsingController;
         this.additionalParsingController = additionalParsingController;
+        this.mainParsingController = mainParsingController;
     }
 
+    @Scheduled(fixedDelay = 90, timeUnit = TimeUnit.MINUTES)
+    public void scheduledParsingOfTDP(){
+        mainParsingController.getTDPs();
+    }
     @Scheduled(cron = "* 0 0 * * ?")
     public void scheduledParsingOfCPU() {
         priceParsingController.parsingPricesOfProcessors();
