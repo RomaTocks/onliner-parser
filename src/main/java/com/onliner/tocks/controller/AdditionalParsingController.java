@@ -1,6 +1,7 @@
-package com.onliner.tocks.controller.parsing;
+package com.onliner.tocks.controller;
 
-import com.onliner.tocks.model.*;
+import com.onliner.tocks.model.product.*;
+
 import com.onliner.tocks.parsing.Parser;
 import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.service.*;
