@@ -4,11 +4,8 @@ import com.onliner.tocks.model.filters.Filter;
 import com.onliner.tocks.model.product.PSU;
 import com.onliner.tocks.repository.custom.PSURepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.AbstractMap;
@@ -16,8 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.onliner.tocks.repository.criteria.DefaultCriteria.count;
-import static com.onliner.tocks.repository.criteria.DefaultCriteria.queryWithCriteria;
 import static com.onliner.tocks.repository.criteria.FilterCriteria.getFilters;
 
 @Component
