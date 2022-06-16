@@ -1,10 +1,9 @@
 package com.onliner.tocks.parsing;
 
-import com.onliner.tocks.model.*;
-import com.onliner.tocks.model.additional.*;
-import com.onliner.tocks.model.additional.values.GraphicCardAdditionalValues;
+import com.onliner.tocks.model.product.*;
+import com.onliner.tocks.model.product.additional.*;
+import com.onliner.tocks.model.product.additional.values.GraphicCardAdditionalValues;
 import com.onliner.tocks.parsing.common.ProductsEnum;
-import com.onliner.tocks.parsing.common.product.Product;
 import com.onliner.tocks.parsing.common.tdp.TDP;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

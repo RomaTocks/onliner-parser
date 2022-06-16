@@ -1,10 +1,10 @@
 package com.onliner.tocks.parsing;
 
+import com.onliner.tocks.model.product.Product;
 import com.onliner.tocks.parsing.common.ProductsEnum;
 import com.onliner.tocks.parsing.common.image.Images;
 import com.onliner.tocks.parsing.common.price.Price;
 import com.onliner.tocks.parsing.common.product.Page;
-import com.onliner.tocks.parsing.common.product.Product;
 import com.onliner.tocks.parsing.common.product.Products;
 import com.onliner.tocks.parsing.common.sellers.Position;
 import com.onliner.tocks.parsing.common.sellers.Sellers;

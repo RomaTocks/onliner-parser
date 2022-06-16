@@ -1,7 +1,7 @@
 package com.onliner.tocks.parsing.common;
 
-import com.onliner.tocks.model.*;
-import com.onliner.tocks.parsing.common.product.Product;
+import com.onliner.tocks.model.product.*;
+import com.onliner.tocks.model.product.Product;
 import org.springframework.stereotype.Component;
 
 @Component

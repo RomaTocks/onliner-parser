@@ -1,6 +1,7 @@
 package com.onliner.tocks.parsing.common.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.onliner.tocks.model.product.Product;
 import lombok.Data;
 
 import java.util.List;
