@@ -1,6 +1,7 @@
 package com.onliner.tocks.service.implementation;
 
-import com.onliner.tocks.model.SSD;
+import com.onliner.tocks.model.filters.Filter;
+import com.onliner.tocks.model.product.SSD;
 import com.onliner.tocks.repository.SSDRepository;
 import com.onliner.tocks.response.exception.RequestException;
 import com.onliner.tocks.service.SSDService;
@@ -35,33 +36,6 @@ public class SSDServiceImpl implements SSDService
     public List<SSD> findAllByPositionsNotNull()
     {
         return ssdRepository.findAllByPositionsNotNull();
-    }
-
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull()
-    {
-        HashMap<String, Object> map = new HashMap<>();
-        List<SSD> list = ssdRepository.findAllByPositionsNotNull();
-        map.put("products", list);
-        map.put("total", (long) list.size());
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull(Pageable pageable, String URL)
-    {
-        return configureResponse(ssdRepository.findAllByPositionsNotNull(pageable),URL);
-    }
-
-    @Override
-    public ResponseEntity<Object> findCPUById(String id)
-    {
-        if(ssdRepository.findById(id).isPresent()) {
-            return new ResponseEntity<>(ssdRepository.findById(id).get(), HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(new RequestException("Продукт с id : " + id + " не найден."), HttpStatus.OK);
-        }
     }
 
     @Override

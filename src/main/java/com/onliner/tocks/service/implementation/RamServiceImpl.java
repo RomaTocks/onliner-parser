@@ -1,6 +1,7 @@
 package com.onliner.tocks.service.implementation;
 
-import com.onliner.tocks.model.Ram;
+import com.onliner.tocks.model.filters.Filter;
+import com.onliner.tocks.model.product.Ram;
 import com.onliner.tocks.repository.RamRepository;
 import com.onliner.tocks.response.exception.RequestException;
 import com.onliner.tocks.service.RamService;
@@ -37,31 +38,8 @@ public class RamServiceImpl implements RamService
         return ramRepository.findAllByPositionsNotNull();
     }
 
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull()
-    {
-        HashMap<String, Object> map = new HashMap<>();
-        List<Ram> list = ramRepository.findAllByPositionsNotNull();
-        map.put("products", list);
-        map.put("total", (long) list.size());
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull(Pageable pageable, String URL)
-    {
-        return configureResponse(ramRepository.findAllByPositionsNotNull(pageable),URL);
-    }
-
-    @Override
-    public ResponseEntity<Object> findCPUById(String id)
-    {
-        if(ramRepository.findById(id).isPresent()) {
-            return new ResponseEntity<>(ramRepository.findById(id).get(), HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(new RequestException("Продукт с id : " + id + " не найден."), HttpStatus.OK);
-        }
+    public List<Filter> dynamicFilters() {
+        return ramRepository.filters();
     }
 
     @Override

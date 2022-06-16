@@ -1,6 +1,7 @@
 package com.onliner.tocks.service.implementation;
 
-import com.onliner.tocks.model.HDD;
+import com.onliner.tocks.model.filters.Filter;
+import com.onliner.tocks.model.product.HDD;
 import com.onliner.tocks.repository.HDDRepository;
 import com.onliner.tocks.response.exception.RequestException;
 import com.onliner.tocks.service.HDDService;
@@ -35,33 +36,6 @@ public class HDDServiceImpl implements HDDService
     public List<HDD> findAllByPositionsNotNull()
     {
         return hddRepository.findAllByPositionsNotNull();
-    }
-
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull()
-    {
-        HashMap<String, Object> map = new HashMap<>();
-        List<HDD> list = hddRepository.findAllByPositionsNotNull();
-        map.put("products", list);
-        map.put("total", (long) list.size());
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull(Pageable pageable, String URL)
-    {
-        return configureResponse(hddRepository.findAllByPositionsNotNull(pageable),URL);
-    }
-
-    @Override
-    public ResponseEntity<Object> findCPUById(String id)
-    {
-        if(hddRepository.findById(id).isPresent()) {
-            return new ResponseEntity<>(hddRepository.findById(id).get(), HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(new RequestException("Продукт с id : " + id + " не найден."), HttpStatus.OK);
-        }
     }
 
     @Override

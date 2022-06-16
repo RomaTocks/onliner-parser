@@ -1,6 +1,7 @@
 package com.onliner.tocks.service.implementation;
 
-import com.onliner.tocks.model.PSU;
+import com.onliner.tocks.model.filters.Filter;
+import com.onliner.tocks.model.product.PSU;
 import com.onliner.tocks.repository.PSURepository;
 import com.onliner.tocks.response.exception.RequestException;
 import com.onliner.tocks.service.PSUService;
@@ -37,31 +38,8 @@ public class PSUServiceImpl implements PSUService
         return psuRepository.findAllByPositionsNotNull();
     }
 
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull()
-    {
-        HashMap<String, Object> map = new HashMap<>();
-        List<PSU> list = psuRepository.findAllByPositionsNotNull();
-        map.put("products", list);
-        map.put("total", (long) list.size());
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Map<String, Object>> findAllBySellersNotNull(Pageable pageable, String URL)
-    {
-        return configureResponse(psuRepository.findAllByPositionsNotNull(pageable),URL);
-    }
-
-    @Override
-    public ResponseEntity<Object> findCPUById(String id)
-    {
-        if(psuRepository.findById(id).isPresent()) {
-            return new ResponseEntity<>(psuRepository.findById(id).get(), HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(new RequestException("Продукт с id : " + id + " не найден."), HttpStatus.OK);
-        }
+    public List<Filter> dynamicFilters() {
+        return psuRepository.filters();
     }
 
     @Override
