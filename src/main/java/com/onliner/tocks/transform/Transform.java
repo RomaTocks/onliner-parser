@@ -1,10 +1,10 @@
 package com.onliner.tocks.transform;
 
-import com.onliner.tocks.model.*;
-import com.onliner.tocks.model.additional.*;
-import com.onliner.tocks.model.additional.values.*;
+
+import com.onliner.tocks.model.product.*;
+import com.onliner.tocks.model.product.additional.*;
+import com.onliner.tocks.model.product.additional.values.*;
 import com.onliner.tocks.parsing.common.ProductsEnum;
-import com.onliner.tocks.parsing.common.product.Product;
 import com.onliner.tocks.parsing.converter.Converter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -154,6 +154,8 @@ public class Transform
                 rams.forEach(ram -> {
                     RamAdditionalValues ramAdditionalValues = new RamAdditionalValues();
                     RamAdditionalInformation additional = ram.getAdditional();
+                    ramAdditionalValues.setValue(checkStringInteger(additional.getValue()));
+                    ramAdditionalValues.setSingleValue(checkStringInteger(additional.getSingleValue()));
                     ramAdditionalValues.setFrequency(checkStringInteger(additional.getFrequency()));
                     ramAdditionalValues.setKit(checkStringInteger(additional.getKit()));
                     ram.setValues(ramAdditionalValues);
@@ -184,9 +186,9 @@ public class Transform
                 fans.forEach(fan -> {
                     FanAdditionalValues fanAdditionalValues = new FanAdditionalValues();
                     FanAdditionalInformation additional = fan.getAdditional();
-                    fanAdditionalValues.setDiameterFan(checkStringDouble(additional.getDiameterFan()));
+                    fanAdditionalValues.setDiameterFan(checkStringInteger(additional.getDiameterFan()));
                     fanAdditionalValues.setDispelPower(checkStringInteger(additional.getDispelPower()));
-                    fanAdditionalValues.setHeight(checkStringDouble(additional.getHeight()));
+                    fanAdditionalValues.setHeight(checkStringInteger(additional.getHeight()));
                     fan.setValues(fanAdditionalValues);
                 });
                 return fans;
@@ -196,8 +198,8 @@ public class Transform
                     PSUAdditionalValues psuAdditionalValues = new PSUAdditionalValues();
                     PSUAdditionalInformation additional = psu.getAdditional();
                     psuAdditionalValues.setPower(checkStringInteger(additional.getPower()));
-                    psuAdditionalValues.setHeight(checkStringDouble(additional.getHeight()));
-                    psuAdditionalValues.setWidth(checkStringDouble(additional.getWidth()));
+                    psuAdditionalValues.setHeight(checkStringInteger(additional.getHeight()));
+                    psuAdditionalValues.setWidth(checkStringInteger(additional.getWidth()));
                     psu.setValues(psuAdditionalValues);
                 });
                 return psus;
@@ -216,13 +218,13 @@ public class Transform
                 chassises.forEach(chassis -> {
                     ChassisAdditionalValues values = new ChassisAdditionalValues();
                     ChassisAdditionalInformation additional = chassis.getAdditional();
-                    values.setDepth(checkStringDouble(additional.getDepth()));
-                    values.setHeight(checkStringDouble(additional.getHeight()));
+                    values.setDepth(checkStringInteger(additional.getDepth()));
+                    values.setHeight(checkStringInteger(additional.getHeight()));
                     values.setFanKit(checkStringInteger(additional.getFanKit()));
                     values.setWeight(checkStringDouble(additional.getWeight()));
-                    values.setMaxCPUCoolingSystemHeight(checkStringDouble(additional.getMaxCPUCoolingSystemHeight()));
-                    values.setMaxGPULength(checkStringDouble(additional.getMaxGPULength()));
-                    values.setMaxPSULength(checkStringDouble(additional.getMaxPSULength()));
+                    values.setMaxCPUCoolingSystemHeight(checkStringInteger(additional.getMaxCPUCoolingSystemHeight()));
+                    values.setMaxGPULength(checkStringInteger(additional.getMaxGPULength()));
+                    values.setMaxPSULength(checkStringInteger(additional.getMaxPSULength()));
                     chassis.setValues(values);
                 });
                 return chassises;
