@@ -27,7 +27,9 @@ public class RamRepositoryImpl implements RamRepositoryCustom
     ));
     private final Map<String, String> INT_RANGE_MAP = new HashMap<>(Map.ofEntries(
             new AbstractMap.SimpleEntry<>("Набор", "kit"),
-            new AbstractMap.SimpleEntry<>("Рабочая частота", "frequency")
+            new AbstractMap.SimpleEntry<>("Рабочая частота", "frequency"),
+            new AbstractMap.SimpleEntry<>("Общий объем", "value"),
+            new AbstractMap.SimpleEntry<>("Объем одного модуля", "singleValue")
     ));
     private final Map<String, String> DOUBLE_RANGE_MAP = new HashMap<>(Map.ofEntries(
     ));

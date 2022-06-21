@@ -11,4 +11,6 @@ public class RamAdditionalValues extends Values
 {
     Integer kit;
     Integer frequency;
+    Integer value;
+    Integer singleValue;
 }

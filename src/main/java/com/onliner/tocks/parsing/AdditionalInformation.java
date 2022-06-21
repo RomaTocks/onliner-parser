@@ -296,7 +296,8 @@ public class AdditionalInformation {
         switch (key)
         {
             case "Набор" : ram.setKit(value);break;
-            case "Объем" : ram.setValue(value);break;
+            case "Общий объем" : ram.setValue(value);break;
+            case "Объем одного модуля" : ram.setSingleValue(value);
             case "Тип" : ram.setType(value);break;
             case "Частота" : ram.setFrequency(value);break;
             case "Тайминги" : ram.setTiming(value);break;

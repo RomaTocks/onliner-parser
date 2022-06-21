@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class RamAdditionalInformation extends Additional {
     String kit;
     String value;
+    String singleValue;
     String type;
     String frequency;
     String timing;
